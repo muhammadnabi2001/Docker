@@ -11,11 +11,11 @@ $wrong_answer = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['answer'] == $_POST['correct_answer']) {
         $_SESSION['fourth'] = true;
-        unset($_SESSION['third']); // Only unset if answer is correct
+        unset($_SESSION['third']); 
         header('Location: fourth.php');
         exit();
     } else {
-        $wrong_answer = true;  // Flag to show the wrong answer message
+        $wrong_answer = true;  
     }
 }
 
