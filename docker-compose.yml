@@ -5,6 +5,7 @@ services:
     image: nginx:latest
     volumes:
       - ./:/var/www           # Loyihaning barcha fayllarini /var/www ga ulash
+      
       - ./nginx/conf.d:/etc/nginx/conf.d  # Nginx konfiguratsiyasini ulash
     ports:
       - "8083:80"  # Hostdagi 8083 portini Nginxning 80 portiga ulash
