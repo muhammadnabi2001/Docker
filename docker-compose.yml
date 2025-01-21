@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www           # Loyihaning barcha fayllarini /var/www ga ulash
+      - ./nginx/conf.d:/etc/nginx/conf.d  # Nginx konfiguratsiyasini ulash
+    ports:
+      - "8083:80"  # Hostdagi 8083 portini Nginxning 80 portiga ulash
+    depends_on:
+      - php   # PHP servisi Nginxdan oldin ishga tushadi
+
+  php:
+    image: php:8.2-fpm
+    volumes:
+      - ./:/var/www  # Loyihaning barcha fayllarini /var/www ga ulash
+    expose:
+      - "9000"  # PHP-FPM portini ochish (Nginx ulanishi uchun)
