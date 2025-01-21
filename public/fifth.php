@@ -10,16 +10,16 @@ $wrong_answer = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['answer'] == $_POST['correct_answer']) {
-        $_SESSION['third'] = true;
-        unset($_SESSION['second']); // Only unset if answer is correct
-        header('Location: third.php');
+        $_SESSION['success'] = true;
+        unset($_SESSION['fifth']); 
+        header('Location: success.php');
         exit();
     } else {
-        $wrong_answer = true;  // Flag to show the wrong answer message
+        $wrong_answer = true;  
     }
 }
 
-if (!isset($_SESSION['second']) || $_SESSION['second'] !== true) {
+if (!isset($_SESSION['fifth']) || $_SESSION['fifth'] !== true) {
     header('Location: index.php');
     exit();
 }
@@ -29,7 +29,7 @@ if (!isset($_SESSION['second']) || $_SESSION['second'] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Second Page</title>
+    <title>Fifth Page</title>
     <style>
         .alert {
             padding: 15px;
@@ -47,14 +47,14 @@ if (!isset($_SESSION['second']) || $_SESSION['second'] !== true) {
     </style>
 </head>
 <body>
-    <h1>Second Page: Solve the problem</h1>
+    <h1>Fifth Page: Solve the problem</h1>
     <p><?php echo "What is $question?"; ?></p>
 
     <?php if ($wrong_answer): ?>
         <div class="alert show">Wrong answer! Try again.</div>
     <?php endif; ?>
 
-    <form action="second.php" method="POST">
+    <form action="fifth.php" method="POST">
         <label for="answer">Your Answer:</label>
         <input type="number" id="answer" name="answer" required>
         <input type="hidden" name="correct_answer" value="<?php echo($response); ?>">

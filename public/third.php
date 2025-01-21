@@ -1,26 +1,28 @@
 <?php
 session_start();
+
 $num1 = rand(1, 10);
 $num2 = rand(1, 10);
 $question = "$num1 + $num2";
 $response = $num1 + $num2;
 
+$wrong_answer = false;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['answer'] == $_POST['correct_answer']) {
-        $_SESSION['third'] = true;
-        header('Location: third.php');
+        $_SESSION['fourth'] = true;
+        unset($_SESSION['third']); // Only unset if answer is correct
+        header('Location: fourth.php');
         exit();
     } else {
-        header('Location: second.php');
-        exit();
+        $wrong_answer = true;  // Flag to show the wrong answer message
     }
 }
 
 if (!isset($_SESSION['third']) || $_SESSION['third'] !== true) {
-    header('Location: second.php');
+    header('Location: index.php');
     exit();
 }
-unset($_SESSION['third']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,16 +30,35 @@ unset($_SESSION['third']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Third Page</title>
+    <style>
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: white;
+            background-color: green;
+            font-size: 16px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Third Page</h1>
-    <h1>Solve the following problem:</h1>
+    <h1>Third Page: Solve the problem</h1>
     <p><?php echo "What is $question?"; ?></p>
 
-    <form action="fourth.php" method="POST">
+    <?php if ($wrong_answer): ?>
+        <div class="alert show">Wrong answer! Try again.</div>
+    <?php endif; ?>
+
+    <form action="third.php" method="POST">
+        <label for="answer">Your Answer:</label>
         <input type="number" id="answer" name="answer" required>
         <input type="hidden" name="correct_answer" value="<?php echo($response); ?>">
-        <button type="submit">Finish</button>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
